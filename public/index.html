@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>✨ Glow-Up & Life Alignment</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════
+   RESET & VARS
+════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:    #fdf6f0;
+  --blush:    #f9ede6;
+  --rose:     #e8956d;
+  --rose-lt:  #f4c5b0;
+  --dusty:    #d4a5a5;
+  --sage:     #b5c4b1;
+  --lavender: #c9c0d3;
+  --gold:     #c9a96e;
+  --deep:     #4a2f2f;
+  --text:     #3d2c2c;
+  --muted:    #9a7b7b;
+  --card:     rgba(255,255,255,0.78);
+  --border:   rgba(212,165,165,0.25);
+  --shadow:   0 4px 20px rgba(92,61,61,0.09);
+  --radius:   18px;
+  --hdr-h:    150px;
+  --nav-h:    72px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 90% 0%,   rgba(244,197,176,.38) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 55% at 5%  90%,   rgba(201,192,211,.28) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 45% at 50% 50%,   rgba(181,196,177,.14) 0%, transparent 70%);
+}
+
+/* ════════════════════════════════════
+   LAYOUT SHELL
+════════════════════════════════════ */
+.app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding-bottom: calc(var(--nav-h) + 12px); }
+
+/* ════════════════════════════════════
+   HEADER
+════════════════════════════════════ */
+.header {
+  background: linear-gradient(145deg, #faf0ea 0%, #f5e2da 55%, #ecdada 100%);
+  padding: 32px 24px 22px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.header .petal { font-size: 30px; display: block; margin-bottom: 4px; animation: sway 4s ease-in-out infinite; }
+@keyframes sway { 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(8deg)} }
+
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 400; line-height: 1.25;
+  color: var(--deep); letter-spacing: .2px;
+}
+.header .sub { font-size: 11px; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 4px; }
+.header .date { font-size: 12px; color: var(--rose); margin-top: 10px; font-weight: 500; }
+
+/* ════════════════════════════════════
+   SCORE + STREAK
+════════════════════════════════════ */
+.hero-row { display: flex; gap: 10px; padding: 16px 16px 0; }
+
+.score-card {
+  flex: 1.4;
+  background: var(--card); backdrop-filter: blur(14px);
+  border-radius: var(--radius); border: 1px solid rgba(255,255,255,.7);
+  box-shadow: var(--shadow); padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.ring-wrap { position: relative; width: 76px; height: 76px; flex-shrink: 0; }
+.ring-wrap svg { transform: rotate(-90deg); }
+.ring-bg  { fill: none; stroke: #f0e0d8; stroke-width: 6; }
+.ring-fg  {
+  fill: none; stroke: var(--rose); stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 207; stroke-dashoffset: 207;
+  transition: stroke-dashoffset .9s cubic-bezier(.4,0,.2,1);
+}
+.ring-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.ring-text .pct  { font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:500; color:var(--deep); line-height:1; }
+.ring-text .rlbl { font-size: 8px; color: var(--muted); letter-spacing:.5px; margin-top:1px; }
+
+.score-meta h3   { font-size: 13px; font-weight: 500; color: var(--deep); }
+.score-meta .sm  { font-size: 11px; color: var(--muted); margin-top:2px; }
+.score-meta .msg { font-size: 11px; color: var(--rose);  margin-top:7px; font-style:italic; }
+
+.streak-card {
+  flex: 1;
+  background: var(--card); backdrop-filter: blur(14px);
+  border-radius: var(--radius); border: 1px solid rgba(255,255,255,.7);
+  box-shadow: var(--shadow); padding: 14px 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.streak-card .fire { font-size: 28px; }
+.streak-card .s-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 500; color: var(--rose); line-height: 1;
+}
+.streak-card .s-lbl { font-size: 10px; color: var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+
+/* ════════════════════════════════════
+   TAB PILLS
+════════════════════════════════════ */
+.tabs {
+  display: flex; gap: 6px; padding: 14px 16px 4px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 7px 16px;
+  border-radius: 50px; border: 1.5px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--muted);
+  cursor: pointer; transition: all .2s; white-space: nowrap; letter-spacing:.2px;
+}
+.tab.active  { background: var(--rose); border-color: var(--rose); color: #fff; font-weight:500; }
+.tab:hover:not(.active) { border-color: var(--dusty); color: var(--deep); }
+
+/* ════════════════════════════════════
+   SECTIONS
+════════════════════════════════════ */
+.section { display: none; padding: 14px 16px 0; animation: fadeUp .28s ease; }
+.section.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
+
+.sec-head {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400; color: var(--deep);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+
+/* ════════════════════════════════════
+   TIME BLOCKS
+════════════════════════════════════ */
+.time-block {
+  margin-bottom: 10px;
+  border-radius: var(--radius);
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+
+.block-header {
+  padding: 13px 14px;
+  display: flex; align-items: center; gap: 9px;
+  cursor: pointer; user-select: none;
+}
+.block-header:active { background: rgba(232,149,109,.06); }
+
+.time-pill {
+  font-size: 9px; font-weight: 500; letter-spacing:.7px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 50px;
+  background: rgba(232,149,109,.14); color: var(--rose); flex-shrink: 0;
+}
+.block-emoji { font-size: 16px; flex-shrink: 0; }
+.block-name  { flex: 1; font-size: 13px; font-weight: 500; color: var(--deep); line-height: 1.2; }
+.block-prog  { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+.chevron     { font-size: 9px; color: var(--muted); transition: transform .25s; flex-shrink: 0; }
+.time-block.open .chevron { transform: rotate(180deg); }
+
+/* Progress bar under header */
+.block-bar { height: 3px; background: rgba(212,165,165,.18); }
+.block-bar-fill { height: 100%; background: linear-gradient(90deg, var(--rose-lt), var(--rose)); border-radius: 2px; transition: width .5s ease; }
+
+.block-body { display: none; padding: 4px 14px 12px; }
+.time-block.open .block-body { display: block; }
+
+/* ════════════════════════════════════
+   HABIT ITEMS
+════════════════════════════════════ */
+.habit-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(212,165,165,.13);
+  transition: opacity .2s;
+}
+.habit-row:last-child { border-bottom: none; }
+
+.hcheck {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.8px solid var(--dusty); background: transparent;
+  cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: all .2s; margin-top: 1px;
+}
+.hcheck.done { background: var(--rose); border-color: var(--rose); }
+.hcheck.done::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 600; }
+
+.habit-info { flex: 1; min-width: 0; }
+.habit-info .hname {
+  font-size: 13px; color: var(--text); line-height: 1.4;
+  transition: color .2s;
+}
+.habit-info .hnote { font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.35; }
+
+.habit-row.done-row .hname { color: var(--muted); text-decoration: line-through; }
+.habit-row.done-row { opacity: .75; }
+
+.rem-badge {
+  font-size: 9px; padding: 2px 7px; border-radius: 50px;
+  background: rgba(201,169,110,.18); color: var(--gold);
+  letter-spacing:.3px; flex-shrink: 0; margin-top: 3px;
+}
+
+/* ════════════════════════════════════
+   WEEKLY TAB
+════════════════════════════════════ */
+.week-cal {
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px; margin-bottom: 12px;
+}
+.week-cal h4 { font-size: 12px; color: var(--muted); letter-spacing:.6px; text-transform:uppercase; margin-bottom: 12px; }
+
+.wk-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 10px; }
+.wk-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.wk-cell .wc-name { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing:.4px; }
+.wk-cell .wc-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500;
+  border: 1.5px solid rgba(212,165,165,.3);
+  background: transparent; transition: all .2s; position: relative;
+}
+.wk-cell.is-today .wc-num { border-color: var(--rose); color: var(--rose); }
+.wk-cell.future .wc-num { opacity: .4; }
+.wk-cell .wc-pct { font-size: 9px; color: var(--muted); font-weight:500; }
+.wk-cell.has-data .wc-num { background: rgba(181,196,177,.3); }
+.wk-cell.great-day .wc-num { background: var(--rose); color: #fff; border-color: var(--rose); }
+
+.wk-legend { display: flex; gap: 12px; font-size: 10px; color: var(--muted); }
+.wk-legend span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.week-stats-card {
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px; margin-bottom: 12px;
+}
+.week-stats-card h4 { font-size: 13px; font-weight: 500; color: var(--deep); margin-bottom: 12px; }
+.stat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.stat-lbl { font-size: 12px; color: var(--muted); min-width: 60px; }
+.stat-track { flex: 1; height: 6px; background: rgba(212,165,165,.2); border-radius: 6px; overflow: hidden; }
+.stat-fill { height: 100%; background: linear-gradient(90deg,var(--rose-lt),var(--rose)); border-radius:6px; transition: width .8s ease; }
+.stat-val { font-size: 12px; color: var(--rose); font-weight:500; min-width: 38px; text-align:right; }
+
+/* ── Day themes ── */
+.theme-card {
+  border-radius: 14px; padding: 13px 14px; margin-bottom: 8px;
+  border-left: 3px solid;
+}
+.theme-card h4 { font-size: 13px; font-weight:500; margin-bottom: 3px; }
+.theme-card p  { font-size: 12px; color: var(--muted); line-height:1.5; }
+
+/* ════════════════════════════════════
+   MANTRAS TAB
+════════════════════════════════════ */
+.mantra-card {
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  margin-bottom: 10px; overflow: hidden;
+}
+.mantra-head {
+  padding: 13px 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+}
+.m-icon { font-size: 24px; flex-shrink:0; }
+.m-info { flex:1; }
+.m-info h4 { font-size: 14px; font-weight:500; color: var(--deep); }
+.m-info p  { font-size: 11px; color: var(--muted); }
+.m-chevron { font-size: 9px; color: var(--muted); transition: transform .25s; }
+.mantra-card.open .m-chevron { transform: rotate(180deg); }
+
+.mantra-body { display: none; padding: 2px 14px 14px; }
+.mantra-card.open .mantra-body { display: block; }
+.m-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--deep); line-height:1.6; font-style:italic;
+  padding: 10px 0 6px;
+  border-top: 1px solid var(--border);
+}
+.m-meaning { font-size: 12px; color: var(--muted); line-height:1.5; margin-bottom:6px; }
+.m-when    { font-size: 11px; color: var(--rose); font-weight:500; margin-bottom:10px; }
+
+.chant-row { display: flex; align-items: center; gap: 10px; }
+.chant-btn {
+  padding: 8px 18px; border-radius: 50px;
+  border: 1.5px solid var(--rose); background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--rose);
+  cursor: pointer; transition: all .2s;
+}
+.chant-btn.counting { background: var(--rose); color: #fff; }
+.chant-count { font-size: 12px; color: var(--muted); }
+.chant-done  { font-size: 12px; color: var(--sage); font-weight:500; }
+
+/* ════════════════════════════════════
+   SKIN & DIET TAB
+════════════════════════════════════ */
+.info-card {
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 14px; margin-bottom: 10px;
+}
+.info-card h4 {
+  font-size: 13px; font-weight:500; color: var(--deep);
+  margin-bottom: 10px; display:flex; align-items:center; gap:6px;
+}
+.info-list { list-style: none; }
+.info-list li {
+  font-size: 12px; color: var(--text); padding: 5px 0;
+  border-bottom: 1px solid rgba(212,165,165,.12);
+  display: flex; align-items: flex-start; gap: 7px; line-height:1.4;
+}
+.info-list li:last-child { border-bottom:none; }
+.info-list li::before { content:'·'; color:var(--rose); font-size:18px; line-height:1; flex-shrink:0; margin-top:-1px; }
+
+.pill-row { display:flex; flex-wrap:wrap; gap:5px; padding-top:4px; }
+.pill {
+  padding: 3px 10px; border-radius: 50px; font-size:11px;
+}
+.pill-red   { background:rgba(220,100,100,.12); color:#c45; }
+.pill-green { background:rgba(130,180,120,.15); color:#567a52; }
+
+/* ════════════════════════════════════
+   JOURNAL TAB
+════════════════════════════════════ */
+.journal-card {
+  background: var(--card); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 14px; margin-bottom: 10px;
+}
+.journal-card h4 { font-size: 13px; font-weight:500; color:var(--deep); margin-bottom:10px; }
+.g-input {
+  width:100%; border: 1.5px solid rgba(212,165,165,.35);
+  border-radius: 10px; padding: 9px 12px;
+  font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text);
+  background: rgba(255,255,255,.5); margin-bottom:6px; resize:none;
+  outline:none; transition:border .2s; height:42px;
+}
+.g-input:focus { border-color: var(--rose); }
+.n-input {
+  width:100%; border: 1.5px solid rgba(212,165,165,.35);
+  border-radius: 10px; padding: 9px 12px;
+  font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text);
+  background: rgba(255,255,255,.5); resize:none; outline:none;
+  transition:border .2s; height:76px;
+}
+.n-input:focus { border-color: var(--rose); }
+.save-btn {
+  width:100%; padding:10px; border-radius:50px; border:none;
+  background:var(--rose); color:#fff;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+  cursor:pointer; transition:opacity .2s; margin-top:2px;
+}
+.save-btn:hover { opacity:.85; }
+.save-btn:active { opacity:.7; }
+.saved-g { margin-top:10px; }
+.g-entry {
+  display:flex; gap:7px; align-items:flex-start;
+  padding: 6px 9px; border-radius:8px;
+  background:rgba(244,197,176,.16); margin-bottom:4px;
+  font-size:12px; color:var(--text); line-height:1.4;
+}
+.g-num { color:var(--rose); font-size:11px; font-weight:500; flex-shrink:0; margin-top:1px; }
+.saved-note { margin-top:8px; font-size:12px; color:var(--muted); line-height:1.5; }
+
+.closing {
+  text-align:center; padding:28px 0 10px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px; color:var(--muted); font-style:italic; line-height:1.5;
+}
+
+/* ════════════════════════════════════
+   BOTTOM NAV
+════════════════════════════════════ */
+.bot-nav {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:480px; z-index:100;
+  background:rgba(253,246,240,.93); backdrop-filter:blur(18px);
+  border-top: 1px solid var(--border);
+  display:flex; justify-content:space-around;
+  padding: 8px 0 max(10px, env(safe-area-inset-bottom));
+}
+.nav-btn {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  background:none; border:none; cursor:pointer;
+  font-family:'DM Sans',sans-serif; font-size:10px; color:var(--muted);
+  transition:color .2s; padding:0 12px; letter-spacing:.2px;
+}
+.nav-icon { font-size:20px; }
+.nav-btn.active { color:var(--rose); }
+
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+.toast {
+  position:fixed; top:18px; left:50%; transform:translateX(-50%);
+  background:var(--deep); color:#fff; padding:11px 22px;
+  border-radius:50px; font-size:13px;
+  box-shadow:0 6px 24px rgba(92,61,61,.3);
+  z-index:999; opacity:0; transition:opacity .3s;
+  pointer-events:none; white-space:nowrap;
+}
+.toast.show { opacity:1; }
+
+/* ════════════════════════════════════
+   LOADING SPINNER
+════════════════════════════════════ */
+.spinner {
+  width:18px; height:18px;
+  border:2px solid rgba(232,149,109,.3);
+  border-top-color: var(--rose);
+  border-radius:50%; animation:spin .6s linear infinite;
+  display:inline-block; vertical-align:middle; margin-left:6px;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ════════════════════════════════════
+   SCROLL
+════════════════════════════════════ */
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-thumb { background:var(--dusty); border-radius:10px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <span class="petal">🌸</span>
+  <h1>Glow-Up &amp; Life Alignment</h1>
+  <div class="sub">Your Daily Wellness Companion</div>
+  <div class="date" id="dateDisplay"></div>
+</div>
+
+<!-- ── HERO ROW ── -->
+<div class="hero-row">
+  <!-- Score ring -->
+  <div class="score-card">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 76 76" width="76" height="76">
+        <circle class="ring-bg" cx="38" cy="38" r="33"/>
+        <circle class="ring-fg" id="scoreRing" cx="38" cy="38" r="33"/>
+      </svg>
+      <div class="ring-text">
+        <span class="pct" id="scorePct">0%</span>
+        <span class="rlbl">TODAY</span>
+      </div>
+    </div>
+    <div class="score-meta">
+      <h3 id="scoreTitle">Start your day ✨</h3>
+      <div class="sm" id="scoreCount">0 of 0 done</div>
+      <div class="msg" id="scoreMsg">Every small step counts.</div>
+    </div>
+  </div>
+
+  <!-- Streak -->
+  <div class="streak-card">
+    <span class="fire">🔥</span>
+    <span class="s-num" id="streakNum">0</span>
+    <span class="s-lbl">day streak</span>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('today',this)">📋 Today</button>
+  <button class="tab" onclick="switchTab('weekly',this)">📅 Weekly</button>
+  <button class="tab" onclick="switchTab('mantras',this)">🔱 Mantras</button>
+  <button class="tab" onclick="switchTab('skin',this)">🧴 Skin &amp; Diet</button>
+  <button class="tab" onclick="switchTab('journal',this)">✨ Journal</button>
+</div>
+
+<!-- ════════════════════════════════════
+     TODAY
+════════════════════════════════════ -->
+<div class="section active" id="tab-today">
+  <div class="sec-head">🌅 Daily Routine</div>
+  <div id="habitBlocks"></div>
+</div>
+
+<!-- ════════════════════════════════════
+     WEEKLY
+════════════════════════════════════ -->
+<div class="section" id="tab-weekly">
+  <div class="sec-head">📅 This Week</div>
+
+  <div class="week-cal">
+    <h4>Week at a Glance</h4>
+    <div class="wk-grid" id="wkGrid"></div>
+    <div class="wk-legend">
+      <span><div class="dot" style="background:rgba(181,196,177,.6)"></div>Partial</span>
+      <span><div class="dot" style="background:var(--rose)"></div>80%+ ✨</span>
+    </div>
+  </div>
+
+  <div class="week-stats-card">
+    <h4>📊 Weekly Stats</h4>
+    <div class="stat-row">
+      <span class="stat-lbl">Avg Score</span>
+      <div class="stat-track"><div class="stat-fill" id="avgFill" style="width:0"></div></div>
+      <span class="stat-val" id="avgVal">—</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-lbl">Best Day</span>
+      <div class="stat-track"><div class="stat-fill" id="bestFill" style="width:0"></div></div>
+      <span class="stat-val" id="bestVal">—</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-lbl">Days Active</span>
+      <div class="stat-track"><div class="stat-fill" id="activeFill" style="width:0"></div></div>
+      <span class="stat-val" id="activeVal">—</span>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:4px">📆 Day Themes</div>
+  <div id="dayThemes"></div>
+</div>
+
+<!-- ════════════════════════════════════
+     MANTRAS
+════════════════════════════════════ -->
+<div class="section" id="tab-mantras">
+  <div class="sec-head">🔱 Mantra Practice</div>
+  <div id="mantraList"></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SKIN & DIET
+════════════════════════════════════ -->
+<div class="section" id="tab-skin">
+  <div class="sec-head">🧴 Skin &amp; Nourishment</div>
+
+  <div class="info-card">
+    <h4>🌅 AM Skincare</h4>
+    <ul class="info-list">
+      <li>Gentle cleanser — no scrubbing</li>
+      <li>Niacinamide serum — every single day</li>
+      <li>Azelaic acid — alternate days only</li>
+      <li>Re'equil moisturizer</li>
+      <li>Gulab jal spray (optional refresher)</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h4>🌙 PM Skincare</h4>
+    <ul class="info-list">
+      <li>Gentle face wash</li>
+      <li>Wait 20 min after cleanse</li>
+      <li>Tretinoin — 2–3× per week ONLY</li>
+      <li>Moisturizer to seal everything</li>
+      <li>Feet massage with oil (grounding)</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h4>⚠️ Active Rules</h4>
+    <div class="pill-row">
+      <span class="pill pill-red">Never mix Tretinoin + Azelaic same night</span>
+      <span class="pill pill-red">No touching face</span>
+      <span class="pill pill-red">No picking acne</span>
+      <span class="pill pill-green">Change pillow cover weekly</span>
+      <span class="pill pill-green">2–3 L water daily</span>
+      <span class="pill pill-green">Splash face mid-day</span>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:6px">🥗 Internal Glow</div>
+
+  <div class="info-card">
+    <h4>🌅 Morning Nutrients</h4>
+    <ul class="info-list">
+      <li>Warm water + amla powder (empty stomach)</li>
+      <li>Soaked almonds (5–6) + raisins</li>
+      <li>Gond katira soaked overnight + small ghee</li>
+      <li>1 plain glass water after</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h4>🍽️ Meal Guide</h4>
+    <ul class="info-list">
+      <li>Breakfast — roti / poha / eggs + seeds mix</li>
+      <li>Lunch — roti + dal + sabzi + curd</li>
+      <li>Dinner — light khichdi or roti sabzi</li>
+      <li>Saunf after every meal (digestion + glow)</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h4>🌷 Period Adjustments (25th–3rd)</h4>
+    <ul class="info-list">
+      <li>Skip tretinoin if skin feels sensitive</li>
+      <li>Use only cleanser + moisturizer + niacinamide</li>
+      <li>Soft mantras only, no full puja rituals</li>
+      <li>Extra rest, warm fluids, light stretching only</li>
+    </ul>
+    <div style="margin-top:8px;font-size:12px;color:var(--rose);font-style:italic">Keep routine soft, not zero 🌷</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     JOURNAL
+════════════════════════════════════ -->
+<div class="section" id="tab-journal">
+  <div class="sec-head">✨ Gratitude &amp; Notes</div>
+
+  <div class="journal-card">
+    <h4>🙏 3 Things I'm Grateful For</h4>
+    <textarea class="g-input" id="g1" placeholder="1. I'm grateful for…"></textarea>
+    <textarea class="g-input" id="g2" placeholder="2. I'm grateful for…"></textarea>
+    <textarea class="g-input" id="g3" placeholder="3. I'm grateful for…"></textarea>
+    <button class="save-btn" onclick="saveGratitude()">Save Gratitude ✨</button>
+    <div class="saved-g" id="savedG"></div>
+  </div>
+
+  <div class="journal-card">
+    <h4>📝 Daily Notes</h4>
+    <textarea class="n-input" id="noteInput" placeholder="How do you feel today? Anything on your mind…"></textarea>
+    <button class="save-btn" onclick="saveNote()">Save Note 💛</button>
+    <div class="saved-note" id="savedNote"></div>
+  </div>
+
+  <div class="info-card">
+    <h4>⚡ Life Upgrade Habits</h4>
+    <ul class="info-list">
+      <li>Daily gratitude — 3 things every night</li>
+      <li>Drink 2–3 L water throughout the day</li>
+      <li>Walk barefoot on grass when possible</li>
+      <li>No phone scrolling after 9 PM</li>
+      <li>Fixed sleep time — 11 PM sharp</li>
+      <li>Max 5 tasks on daily to-do list</li>
+    </ul>
+  </div>
+
+  <div class="closing">"Consistency creates transformation."</div>
+</div>
+
+</div><!-- /app -->
+
+<!-- BOTTOM NAV -->
+<div class="bot-nav">
+  <button class="nav-btn active" onclick="switchTab('today',null);setActiveNav(this)">
+    <span class="nav-icon">📋</span>Today
+  </button>
+  <button class="nav-btn" onclick="switchTab('weekly',null);setActiveNav(this)">
+    <span class="nav-icon">📅</span>Week
+  </button>
+  <button class="nav-btn" onclick="switchTab('mantras',null);setActiveNav(this)">
+    <span class="nav-icon">🔱</span>Mantras
+  </button>
+  <button class="nav-btn" onclick="switchTab('skin',null);setActiveNav(this)">
+    <span class="nav-icon">🧴</span>Skin
+  </button>
+  <button class="nav-btn" onclick="switchTab('journal',null);setActiveNav(this)">
+    <span class="nav-icon">✨</span>Journal
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════ -->
+<script>
+/* ─── DATA DEFINITIONS ─── */
+const BLOCKS = [
+  {
+    id:'b1', emoji:'🙏', name:'Morning Spiritual', time:'6:30 – 6:45',
+    habits:[
+      {id:'puja',       name:'Small puja (Ganesha + Durga)', note:'Light diya, set intention'},
+      {id:'mantra_g',   name:'Om Gam Ganapataye Namah × 108', note:'Removes obstacles — chant clearly'},
+      {id:'mantra_d',   name:'Om Dum Durgayei Namah × 108',  note:'Protection + mental clarity'},
+      {id:'intention',  name:'1-min intention setting', note:'"Guide me, keep me focused"'}
+    ]
+  },
+  {
+    id:'b2', emoji:'🧴', name:'AM Skincare', time:'6:45 – 7:00',
+    habits:[
+      {id:'sk_clean',   name:'Gentle cleanser',               note:'No scrubbing'},
+      {id:'sk_niacin',  name:'Niacinamide serum',             note:'Every day — non-negotiable'},
+      {id:'sk_azelaic', name:'Azelaic acid',                  note:'Alternate days only', rem:'Alt day'},
+      {id:'sk_moist',   name:'Re\'equil moisturizer',         note:''},
+      {id:'sk_gulab',   name:'Gulab jal spray',               note:'Optional refresher'}
+    ]
+  },
+  {
+    id:'b3', emoji:'🥗', name:'Internal Glow', time:'7:00 – 7:20',
+    habits:[
+      {id:'amla',       name:'Warm water + amla powder',      note:'Empty stomach first thing'},
+      {id:'nuts',       name:'Soaked almonds + raisins',      note:'5–6 almonds'},
+      {id:'gond',       name:'Gond katira + small ghee',      note:'Soaked overnight'},
+      {id:'water1',     name:'1 glass plain water',           note:''}
+    ]
+  },
+  {
+    id:'b4', emoji:'🧘', name:'Yoga + Breathing', time:'7:20 – 7:45',
+    habits:[
+      {id:'anulom',     name:'Anulom Vilom (5 min)',          note:'Breathe slow and steady'},
+      {id:'stretch',    name:'Light stretching',              note:''},
+      {id:'face_acu',   name:'Face acupressure',              note:'Cheeks, jawline, forehead'},
+      {id:'posture',    name:'Neck + posture correction',     note:''}
+    ]
+  },
+  {
+    id:'b5', emoji:'🍽️', name:'Breakfast', time:'8:00 – 9:00',
+    habits:[
+      {id:'bfast',      name:'Breakfast (roti/poha/eggs)',    note:''},
+      {id:'seeds',      name:'Seeds mix',                     note:'Flax, chia, pumpkin seeds'},
+      {id:'saunf1',     name:'Saunf after meal',              note:'Digestion + glow'}
+    ]
+  },
+  {
+    id:'b6', emoji:'📚', name:'Study System', time:'9:30 – 12:30',
+    habits:[
+      {id:'study45',    name:'45-min focus cycles (3–5×)',    note:'Pomodoro method — no phone'},
+      {id:'todo5',      name:'To-do list — max 5 tasks',      note:'Priority-based work only'},
+      {id:'noface',     name:'No touching face all day',      note:'Skin discipline 🌿'},
+      {id:'splash',     name:'Splash water mid-day',          note:'Refresh + reset skin'}
+    ]
+  },
+  {
+    id:'b7', emoji:'🗣️', name:'Career Practice', time:'10:30 – 11:00',
+    habits:[
+      {id:'speaking',   name:'20-min speaking practice',      note:'Record yourself, review tone'},
+      {id:'interview',  name:'Mock interview answers',         note:'1–2 questions daily'}
+    ]
+  },
+  {
+    id:'b8', emoji:'🍛', name:'Lunch', time:'12:30 – 1:30',
+    habits:[
+      {id:'lunch',      name:'Roti + dal + sabzi',            note:''},
+      {id:'curd',       name:'Curd (if suits you)',           note:'Probiotics for skin'},
+      {id:'saunf2',     name:'Saunf after meal',              note:''}
+    ]
+  },
+  {
+    id:'b9', emoji:'😴', name:'Rest', time:'1:30 – 2:00',
+    habits:[
+      {id:'nap',        name:'Short nap (max 30 min)',        note:'Set alarm — don\'t oversleep!'}
+    ]
+  },
+  {
+    id:'b10', emoji:'🧼', name:'Afternoon Reset', time:'2:00 – 3:00',
+    habits:[
+      {id:'desk',       name:'Clean desk + organize books',   note:'Clear space = clear mind'},
+      {id:'laundry',    name:'Laundry (alternate days)',      note:'', rem:'Alt day'}
+    ]
+  },
+  {
+    id:'b11', emoji:'📖', name:'Deep Work', time:'3:00 – 5:30',
+    habits:[
+      {id:'skills',     name:'Skill building session',        note:'No distractions — focus mode'},
+      {id:'interview2', name:'Interview prep + revision',     note:''}
+    ]
+  },
+  {
+    id:'b12', emoji:'🚶', name:'Evening Movement', time:'5:30 – 6:00',
+    habits:[
+      {id:'walk',       name:'Walk / skipping / yoga',        note:'Any 30-min movement outside'}
+    ]
+  },
+  {
+    id:'b13', emoji:'🙏', name:'Evening Mantra', time:'6:00 – 6:20',
+    habits:[
+      {id:'rahu_m',     name:'Rahu mantra 54–108×',           note:'Om Bhraam Bhreem Bhroum Sah Rahave Namah'}
+    ]
+  },
+  {
+    id:'b14', emoji:'🧴', name:'Evening Skincare', time:'6:30',
+    habits:[
+      {id:'eve_wash',   name:'Gentle face wash',              note:''},
+      {id:'eve_moist',  name:'Moisturizer only',              note:'Keep evening routine simple'}
+    ]
+  },
+  {
+    id:'b15', emoji:'🍽️', name:'Dinner', time:'7:30 – 9:00',
+    habits:[
+      {id:'dinner',     name:'Light dinner (khichdi/roti)',   note:'Eat light — gut health'},
+      {id:'saunf3',     name:'Saunf after meal',              note:''}
+    ]
+  },
+  {
+    id:'b16', emoji:'🌙', name:'Night Routine', time:'9:00 – 11:00',
+    habits:[
+      {id:'meditation', name:'5-min meditation',              note:'Calm the mind, release the day'},
+      {id:'night_cl',   name:'Cleanser + 20 min wait',        note:'No skipping this step'},
+      {id:'tretin',     name:'Tretinoin (2–3×/week)',         note:'Don\'t overdo it!', rem:'2-3×/wk'},
+      {id:'night_mo',   name:'Night moisturizer',             note:''},
+      {id:'feet_oil',   name:'Feet massage with oil',         note:'Grounding practice'},
+      {id:'n_stretch',  name:'Light stretching',              note:''},
+      {id:'gratitude',  name:'Write 3 gratitudes',            note:'In Journal tab tonight'},
+      {id:'sleep',      name:'Sleep by 11 PM',                note:'Non-negotiable 💤'}
+    ]
+  }
+];
+
+const DAY_THEMES = [
+  {d:'Monday',   t:'Reset Day',      c:'rgba(201,192,211,.25)', b:'#c9c0d3', desc:'Clean your space, change pillow cover, reset your energy for the new week.'},
+  {d:'Tuesday',  t:'Discipline Day', c:'rgba(212,165,165,.2)',  b:'#d4a5a5', desc:'Extra study cycles, strict schedule, no compromises on your routine.'},
+  {d:'Wednesday',t:'Career Day',     c:'rgba(181,196,177,.22)', b:'#b5c4b1', desc:'Apply for opportunities, communication practice, mock interview rounds.'},
+  {d:'Thursday', t:'Learning Day',   c:'rgba(201,169,110,.18)', b:'#c9a96e', desc:'Deep revision, skill building, absorbing new concepts without distraction.'},
+  {d:'Friday',   t:'Glow-Up Day',    c:'rgba(244,197,176,.25)', b:'#e8956d', desc:'Grooming, hygiene rituals, extended self-care, beauty treatments.'},
+  {d:'Saturday', t:'Remedy Day',     c:'rgba(201,192,211,.28)', b:'#c9c0d3', desc:'Mustard oil diya, Saturn + Rahu mantra, coconut cleansing ritual.'},
+  {d:'Sunday',   t:'Restore Day',    c:'rgba(181,196,177,.25)', b:'#b5c4b1', desc:'Hair wash, deep cleaning, full body reset, relax and plan the week.'}
+];
+
+const MANTRAS = [
+  {deity:'🐘 Ganesha', mantra:'Om Gam Ganapataye Namah', meaning:'Salutations to Lord Ganesha, remover of obstacles and bestower of blessings.', when:'Morning puja — 108× daily', benefit:'Removes obstacles, opens paths'},
+  {deity:'🔱 Durga',   mantra:'Om Dum Durgayei Namah',  meaning:'Salutations to Goddess Durga, fierce protector and source of strength.', when:'Morning puja — 108× daily', benefit:'Protection, mental clarity'},
+  {deity:'🪐 Rahu',    mantra:'Om Bhraam Bhreem Bhroum Sah Rahave Namah', meaning:'Salutations to Rahu, the shadow planet that governs illusions.', when:'Evening 6:00–6:20 PM — 54–108×', benefit:'Controls confusion, reduces overthinking'},
+  {deity:'⚖️ Saturn',  mantra:'Om Sham Shanicharaya Namah', meaning:'Salutations to Saturn, the planet of discipline and karmic justice.', when:'Saturday — 108×', benefit:'Discipline, patience, delayed success becomes certain'},
+  {deity:'☿ Mercury',  mantra:'Om Bum Budhaya Namah', meaning:'Salutations to Mercury, the planet of intellect and communication.', when:'Wednesday morning — 108×', benefit:'Career success, communication skills'},
+  {deity:'♀️ Venus',   mantra:'Om Shum Shukraya Namah', meaning:'Salutations to Venus, the planet of beauty and attraction.', when:'Friday morning — 108×', benefit:'Glow, attraction, self-confidence'}
+];
+
+/* ─── STATE ─── */
+let todayHabits = {};
+let weekData    = {};
+let todayKey    = '';
+let chantCounts = {};
+
+/* ─── UTILITIES ─── */
+function getDateKey(d = new Date()) {
+  return d.toISOString().split('T')[0];
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ─── API CALLS ─── */
+async function apiGet(url) {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  } catch(e) { console.error('GET', url, e); return null; }
+}
+async function apiPost(url, body) {
+  try {
+    const r = await fetch(url, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  } catch(e) { console.error('POST', url, e); return null; }
+}
+
+/* ─── INIT ─── */
+async function init() {
+  todayKey = getDateKey();
+  updateDateDisplay();
+  const data = await apiGet('/api/day/' + todayKey);
+  if (data) {
+    todayHabits = data.habits || {};
+    loadGratitudeUI(data.gratitude || []);
+    loadNoteUI(data.note || '');
+  }
+  renderBlocks();
+  renderMantras();
+  renderDayThemes();
+  updateScore();
+  await calcStreak();
+}
+
+/* ─── DATE DISPLAY ─── */
+function updateDateDisplay() {
+  const opts = {weekday:'long', year:'numeric', month:'long', day:'numeric'};
+  document.getElementById('dateDisplay').textContent =
+    new Date().toLocaleDateString('en-IN', opts);
+}
+
+/* ─── RENDER BLOCKS ─── */
+function renderBlocks() {
+  const container = document.getElementById('habitBlocks');
+  container.innerHTML = '';
+
+  BLOCKS.forEach((block, bi) => {
+    const total = block.habits.length;
+    const done  = block.habits.filter(h => todayHabits[h.id]).length;
+    const pct   = total ? Math.round(done/total*100) : 0;
+
+    const div = document.createElement('div');
+    div.className = 'time-block' + (bi === 0 ? ' open' : '');
+    div.id = 'block-' + block.id;
+    div.innerHTML = `
+      <div class="block-header" onclick="toggleBlock('${block.id}')">
+        <span class="block-emoji">${block.emoji}</span>
+        <span class="time-pill">${block.time}</span>
+        <span class="block-name">${block.name}</span>
+        <span class="block-prog" id="prog-${block.id}">${done}/${total}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="block-bar">
+        <div class="block-bar-fill" id="bar-${block.id}" style="width:${pct}%"></div>
+      </div>
+      <div class="block-body" id="body-${block.id}">
+        ${block.habits.map(h => renderHabitRow(h)).join('')}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function renderHabitRow(h) {
+  const done = todayHabits[h.id];
+  return `
+    <div class="habit-row ${done?'done-row':''}" id="row-${h.id}">
+      <div class="hcheck ${done?'done':''}" id="chk-${h.id}" onclick="toggleHabit('${h.id}')"></div>
+      <div class="habit-info">
+        <div class="hname">${h.name}</div>
+        ${h.note ? `<div class="hnote">${h.note}</div>` : ''}
+      </div>
+      ${h.rem ? `<span class="rem-badge">⏰ ${h.rem}</span>` : ''}
+    </div>
+  `;
+}
+
+function toggleBlock(id) {
+  document.getElementById('block-' + id).classList.toggle('open');
+}
+
+/* ─── TOGGLE HABIT ─── */
+async function toggleHabit(id) {
+  const newVal = !todayHabits[id];
+  todayHabits[id] = newVal;
+
+  // Optimistic UI update
+  const chk = document.getElementById('chk-' + id);
+  const row = document.getElementById('row-' + id);
+  if (chk) { chk.classList.toggle('done', newVal); chk.style.transform='scale(1.35)'; setTimeout(()=>chk.style.transform='',200); }
+  if (row) row.classList.toggle('done-row', newVal);
+
+  updateBlockProgress();
+  updateScore();
+
+  // Save to server
+  await apiPost('/api/habit', { date: todayKey, id, done: newVal });
+}
+
+function updateBlockProgress() {
+  BLOCKS.forEach(block => {
+    const total = block.habits.length;
+    const done  = block.habits.filter(h => todayHabits[h.id]).length;
+    const pct   = total ? Math.round(done/total*100) : 0;
+    const prog  = document.getElementById('prog-' + block.id);
+    const bar   = document.getElementById('bar-'  + block.id);
+    if (prog) prog.textContent = `${done}/${total}`;
+    if (bar)  bar.style.width  = pct + '%';
+  });
+}
+
+/* ─── SCORE ─── */
+function updateScore() {
+  const all   = BLOCKS.flatMap(b => b.habits);
+  const total = all.length;
+  const done  = all.filter(h => todayHabits[h.id]).length;
+  const pct   = total ? Math.round(done/total*100) : 0;
+
+  document.getElementById('scorePct').textContent   = pct + '%';
+  document.getElementById('scoreCount').textContent = `${done} of ${total} done`;
+
+  const circ   = 2 * Math.PI * 33; // ~207.3
+  const offset = circ - (pct/100 * circ);
+  document.getElementById('scoreRing').style.strokeDashoffset = offset;
+
+  let title, msg;
+  if      (pct === 0)   { title='Start your day ✨';   msg='Every small step counts.'; }
+  else if (pct < 25)    { title='Good start 🌱';       msg='Keep the momentum going!'; }
+  else if (pct < 50)    { title='Building up 🌸';      msg='You\'re doing really well!'; }
+  else if (pct < 75)    { title='Glowing 🌟';          msg='You\'re building something beautiful.'; }
+  else if (pct < 100)   { title='Almost there 🔥';     msg='Finish strong, queen!'; }
+  else                  { title='Perfect day! 👑';     msg='You showed up for yourself completely!'; }
+
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreMsg').textContent   = msg;
+}
+
+/* ─── STREAK ─── */
+async function calcStreak() {
+  const data = await apiGet('/api/streak');
+  if (!data) return;
+  const habits = data.habits || {};
+  const all    = BLOCKS.flatMap(b => b.habits);
+  const total  = all.length;
+
+  let streak = 0;
+  let d = new Date();
+  for (let i = 0; i < 365; i++) {
+    const key     = getDateKey(d);
+    const dayData = habits[key] || {};
+    const done    = all.filter(h => dayData[h.id]).length;
+    if (done / total >= 0.5) { streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  document.getElementById('streakNum').textContent = streak;
+}
+
+/* ─── WEEKLY ─── */
+async function renderWeekly() {
+  const today   = new Date();
+  const monday  = new Date(today);
+  monday.setDate(today.getDate() - ((today.getDay()+6)%7));
+  const startKey = getDateKey(monday);
+
+  const data = await apiGet('/api/week/' + startKey);
+  if (!data) return;
+
+  const all   = BLOCKS.flatMap(b => b.habits);
+  const total = all.length;
+  const days  = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+
+  const grid = document.getElementById('wkGrid');
+  grid.innerHTML = '';
+
+  let scores = [], activeCnt = 0;
+  for (let i = 0; i < 7; i++) {
+    const d    = new Date(monday); d.setDate(monday.getDate()+i);
+    const key  = getDateKey(d);
+    const dd   = data[key] || {};
+    const done = all.filter(h => dd[h.id]).length;
+    const pct  = total ? Math.round(done/total*100) : 0;
+    const isToday = key === getDateKey();
+    const isFuture= d > today && !isToday;
+
+    scores.push(pct);
+    if (done > 0) activeCnt++;
+
+    const cell = document.createElement('div');
+    cell.className = 'wk-cell' +
+      (isToday  ? ' is-today'  : '') +
+      (isFuture ? ' future'    : '') +
+      (done > 0 && pct < 80 ? ' has-data'  : '') +
+      (pct >= 80             ? ' great-day' : '');
+    cell.innerHTML = `
+      <span class="wc-name">${days[i]}</span>
+      <div class="wc-num">${d.getDate()}</div>
+      <span class="wc-pct">${done > 0 ? pct+'%' : '—'}</span>
+    `;
+    grid.appendChild(cell);
+  }
+
+  const valid = scores.filter(s => s > 0);
+  const avg   = valid.length ? Math.round(valid.reduce((a,b)=>a+b,0)/valid.length) : 0;
+  const best  = scores.length ? Math.max(...scores) : 0;
+  const bestI = scores.indexOf(best);
+  const bestDay = best > 0 ? ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][bestI] : null;
+
+  document.getElementById('avgFill').style.width   = avg + '%';
+  document.getElementById('avgVal').textContent    = valid.length ? avg+'%' : '—';
+  document.getElementById('bestFill').style.width  = best + '%';
+  document.getElementById('bestVal').textContent   = bestDay ? bestDay+' '+best+'%' : '—';
+  document.getElementById('activeFill').style.width= (activeCnt/7*100)+'%';
+  document.getElementById('activeVal').textContent = activeCnt+'/7';
+}
+
+/* ─── DAY THEMES ─── */
+function renderDayThemes() {
+  const container = document.getElementById('dayThemes');
+  DAY_THEMES.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'theme-card';
+    d.style.cssText = `background:${t.c};border-left-color:${t.b}`;
+    d.innerHTML = `<h4>${t.d} — <em style="font-family:'Cormorant Garamond',serif;font-weight:400">${t.t}</em></h4><p>${t.desc}</p>`;
+    container.appendChild(d);
+  });
+}
+
+/* ─── MANTRAS ─── */
+function renderMantras() {
+  const list = document.getElementById('mantraList');
+  MANTRAS.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'mantra-card';
+    div.innerHTML = `
+      <div class="mantra-head" onclick="this.parentElement.classList.toggle('open')">
+        <span class="m-icon">${m.deity.split(' ')[0]}</span>
+        <div class="m-info">
+          <h4>${m.deity}</h4>
+          <p>${m.benefit}</p>
+        </div>
+        <span class="m-chevron">▼</span>
+      </div>
+      <div class="mantra-body">
+        <div class="m-text">${m.mantra}</div>
+        <div class="m-meaning">${m.meaning}</div>
+        <div class="m-when">🕐 ${m.when}</div>
+        <div class="chant-row">
+          <button class="chant-btn" id="cbtn-${i}" onclick="chantTap(${i})">▶ Start Chanting</button>
+          <span id="ccount-${i}" class="chant-count"></span>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function chantTap(i) {
+  const btn = document.getElementById('cbtn-'   + i);
+  const cnt = document.getElementById('ccount-' + i);
+  if (!chantCounts[i]) chantCounts[i] = 0;
+
+  if (!btn.classList.contains('counting')) {
+    btn.classList.add('counting');
+    btn.textContent = 'Tap to count (0)';
+    chantCounts[i]  = 0;
+    cnt.textContent = '';
+  } else {
+    chantCounts[i]++;
+    const n = chantCounts[i];
+    btn.textContent = `Tap to count (${n})`;
+    if (n >= 108) {
+      btn.textContent = '✅ 108 Complete!';
+      btn.classList.remove('counting');
+      cnt.className   = 'chant-done';
+      cnt.textContent = '🙏 Jai Mata Di!';
+    }
+  }
+}
+
+/* ─── TABS ─── */
+function switchTab(name, tabEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (tabEl) tabEl.classList.add('active');
+
+  if (name === 'weekly') renderWeekly();
+}
+function setActiveNav(el) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ─── GRATITUDE ─── */
+async function saveGratitude() {
+  const items = [
+    document.getElementById('g1').value.trim(),
+    document.getElementById('g2').value.trim(),
+    document.getElementById('g3').value.trim()
+  ].filter(Boolean);
+  if (!items.length) { showToast('Write at least one thing 🌸'); return; }
+  const res = await apiPost('/api/gratitude', { date: todayKey, items });
+  if (res) { loadGratitudeUI(items); showToast('Gratitude saved ✨'); }
+}
+function loadGratitudeUI(items) {
+  if (!items.length) return;
+  items.forEach((v,i) => {
+    const el = document.getElementById('g' + (i+1));
+    if (el && !el.value) el.value = v;
+  });
+  const el = document.getElementById('savedG');
+  el.innerHTML = '<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">Today\'s gratitude 🌸</div>' +
+    items.map((g,i) => `<div class="g-entry"><span class="g-num">${i+1}.</span>${g}</div>`).join('');
+}
+
+/* ─── NOTE ─── */
+async function saveNote() {
+  const note = document.getElementById('noteInput').value.trim();
+  if (!note) return;
+  const res = await apiPost('/api/note', { date: todayKey, note });
+  if (res) { loadNoteUI(note); showToast('Note saved 💛'); }
+}
+function loadNoteUI(note) {
+  if (!note) return;
+  const inp = document.getElementById('noteInput');
+  const el  = document.getElementById('savedNote');
+  if (inp && !inp.value) inp.value = note;
+  if (el) el.textContent = '📝 ' + note;
+}
+
+/* ─── NOTIFICATIONS ─── */
+const REMINDERS = [
+  {h:6,  m:30, msg:'🌅 Good morning! Time for puja and intention setting.'},
+  {h:6,  m:45, msg:'🧴 Skincare time! Cleanser → Niacinamide → Moisturizer.'},
+  {h:7,  m:0,  msg:'🥗 Drink your amla water and take your soaked nuts!'},
+  {h:7,  m:20, msg:'🧘 Yoga time! Start with Anulom Vilom.'},
+  {h:9,  m:30, msg:'📚 Study session starts. Set your top 5 tasks!'},
+  {h:12, m:30, msg:'🍛 Lunch time! Eat slowly, saunf after meal.'},
+  {h:18, m:0,  msg:'🙏 Evening Rahu mantra time.'},
+  {h:21, m:0,  msg:'🌙 Night routine begins. Meditation, skincare, gratitude.'},
+  {h:23, m:0,  msg:'💤 Time to sleep! Rest for tomorrow\'s glow-up.'}
+];
+function checkReminders() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const now = new Date();
+  const key = `notif_${getDateKey()}_${now.getHours()}_${now.getMinutes()}`;
+  if (localStorage.getItem(key)) return;
+  REMINDERS.forEach(r => {
+    if (now.getHours() === r.h && now.getMinutes() === r.m) {
+      new Notification('✨ Glow-Up Tracker', {body: r.msg});
+      localStorage.setItem(key, '1');
+    }
+  });
+}
+if ('Notification' in window && Notification.permission !== 'granted') {
+  Notification.requestPermission();
+}
+setInterval(checkReminders, 60000);
+
+/* ─── START ─── */
+init();
+</script>
+</body>
+</html>
