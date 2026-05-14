@@ -1,52 +1,30 @@
-# ✨ Glow-Up & Life Alignment Tracker
+# ✨ Glow-Up & Life Alignment Tracker v2
 
-A full-stack wellness + habit tracker for female students. Built with Node.js + Express backend and a beautiful mobile-first frontend.
+## What's Fixed in v2
+- ✅ Persistent data — PostgreSQL on Render (never lost on restart)
+- ✅ Mood tracker with 6 moods + personalized advice
+- ✅ Note history — past 30 days with mood + gratitude
+- ✅ Emotion reminder banner — rotating quotes
+- ✅ JSON fallback for local dev
 
-## Features
-- 16 time blocks covering 6:30 AM → 11:00 PM
-- 40+ daily habits with tap-to-check interaction
-- Live score ring + streak counter
-- Weekly calendar with per-day scores and stats
-- Mantra practice with chant counter (counts to 108)
-- Skin & diet reference cards
-- Gratitude journal + daily notes (saved to server)
-- Browser push notifications for reminders
+## 🚀 Deploy to Render FREE
 
-## Local Development
+### Step 1 — Push to GitHub
+Upload all files to a new GitHub repo.
 
-```bash
-npm install
-npm start
+### Step 2 — Create Free PostgreSQL on Render
+Render → New → PostgreSQL → Free plan → Copy the "Internal Database URL"
+
+### Step 3 — Create Web Service
+Render → New → Web Service → Connect GitHub repo
+- Build Command: npm install
+- Start Command: npm start
+- Add Environment Variable: DATABASE_URL = (paste Internal Database URL)
+
+Done! Data persists permanently in PostgreSQL.
+
+## Local Dev (no DB needed)
 ```
-Open http://localhost:3000
-
-## Deploy to Render (Free)
-
-1. Push this folder to a **GitHub repository**
-2. Go to https://render.com → **New → Web Service**
-3. Connect your GitHub repo
-4. Fill in these settings:
-   - **Name**: glowup-tracker (or anything)
-   - **Runtime**: Node
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-   - **Instance Type**: Free
-5. Click **Create Web Service**
-6. Wait ~2 min for deploy — your URL appears at the top!
-
-## Tech Stack
-- **Backend**: Node.js + Express
-- **Storage**: JSON file (data/habits.json) — persistent on Render disk
-- **Frontend**: Vanilla HTML/CSS/JS — no framework needed
-- **Fonts**: Cormorant Garamond + DM Sans (Google Fonts)
-
-## API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/day/:date | Get all data for a date |
-| POST | /api/habit | Toggle a habit |
-| GET | /api/week/:startDate | Get week data |
-| POST | /api/gratitude | Save gratitude entries |
-| POST | /api/note | Save daily note |
-| GET | /api/streak | Get all habit history |
-| GET | /api/health | Health check |
+npm install && npm start
+```
+Opens on http://localhost:3000 with JSON file fallback.
